@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
       - name: Generate snake animation
         uses: Platane/snk@v3
@@ -23,5 +25,12 @@ jobs:
             github-contribution-grid-snake.svg
             github-contribution-grid-snake-dark.svg?palette=github-dark
 
-      - name: Push changes
+      - name: Commit & push generated files
         uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update generated snake animation"
+          file_pattern: |
+            github-contribution-grid-snake.svg
+            github-contribution-grid-snake-dark.svg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
